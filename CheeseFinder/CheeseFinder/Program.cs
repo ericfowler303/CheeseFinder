@@ -16,10 +16,11 @@ namespace CheeseFinder
             while (!hasCheeseBeenFound)
             {
                 game.DrawGrid();
-                game.MoveMouse(game.GetUserMove());
+                hasCheeseBeenFound = game.MoveMouse(game.GetUserMove());
                 game.Round++;
             }
             Console.WriteLine("You found the cheese, it only took {0} rounds", game.Round);
+            Console.ReadLine();
         }
     }
 
@@ -97,6 +98,7 @@ namespace CheeseFinder
                 case ConsoleKey.UpArrow: return userInput.Key;
                 default:
                     Console.WriteLine("Invalid Input");
+                    System.Threading.Thread.Sleep(500);
                     return userInput.Key;
             }
         }
