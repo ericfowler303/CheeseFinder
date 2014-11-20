@@ -11,6 +11,11 @@ namespace CheeseFinder
         static void Main(string[] args)
         {
             CheeseFinder game = new CheeseFinder();
+            PlayGame(game);
+        }
+
+        private static void PlayGame(CheeseFinder game)
+        {
             bool hasCheeseBeenFound = false;
 
             while (!hasCheeseBeenFound)
@@ -82,7 +87,7 @@ namespace CheeseFinder
                     }
                 }
                 // Write a new line at the end of the row
-                Console.WriteLine();
+                Console.Write("\n");
             }
         }
 
@@ -98,7 +103,7 @@ namespace CheeseFinder
                 case ConsoleKey.UpArrow: return userInput.Key;
                 default:
                     Console.WriteLine("Invalid Input");
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(750);
                     return userInput.Key;
             }
         }
