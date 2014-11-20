@@ -11,9 +11,15 @@ namespace CheeseFinder
         static void Main(string[] args)
         {
             CheeseFinder game = new CheeseFinder();
-            game.DrawGrid();
+            bool hasCheeseBeenFound = false;
 
-            Console.ReadKey();
+            while (!hasCheeseBeenFound)
+            {
+                game.DrawGrid();
+                game.MoveMouse(game.GetUserMove());
+                game.Round++;
+            }
+            Console.WriteLine("You found the cheese, it only took {0} rounds", game.Round);
         }
     }
 
@@ -83,11 +89,16 @@ namespace CheeseFinder
         {
             // Get the user input
             ConsoleKeyInfo userInput = Console.ReadKey();
-            if (!ValidMove(userInput.Key))
+            switch (userInput.Key)
             {
-                Console.WriteLine("Invalid Key Press");
+                case ConsoleKey.DownArrow: 
+                case ConsoleKey.LeftArrow: 
+                case ConsoleKey.RightArrow:
+                case ConsoleKey.UpArrow: return userInput.Key;
+                default:
+                    Console.WriteLine("Invalid Input");
+                    return userInput.Key;
             }
-            return userInput.Key;
         }
         /// <summary>
         /// Figure out if the next move is valid
@@ -98,10 +109,10 @@ namespace CheeseFinder
         {
             switch (userKey)
             {
-                case ConsoleKey.DownArrow: return this.Mouse.YCord <= 9;
-                case ConsoleKey.LeftArrow: return this.Mouse.XCord >= 0;
-                case ConsoleKey.RightArrow: return this.Mouse.XCord <= 9;
-                case ConsoleKey.UpArrow: return this.Mouse.YCord >= 0;
+                case ConsoleKey.DownArrow: return this.Mouse.YCord < 9;
+                case ConsoleKey.LeftArrow: return this.Mouse.XCord > 0;
+                case ConsoleKey.RightArrow: return this.Mouse.XCord < 9;
+                case ConsoleKey.UpArrow: return this.Mouse.YCord > 0;
             }
             // User pressed the wrong key so that's never a valid move
             return false;
@@ -109,26 +120,29 @@ namespace CheeseFinder
 
         public bool MoveMouse(ConsoleKey userKey)
         {
-            int newX;
-            int newY;
-            switch (userKey)
+            if (ValidMove(userKey))
             {
-                case ConsoleKey.DownArrow:
-                    newX = Mouse.XCord;
-                    newY = Mouse.YCord + 1;
-                    return HasCheese(newX, newY);
-                case ConsoleKey.LeftArrow:
-                    newX = Mouse.XCord - 1;
-                    newY = Mouse.YCord;
-                    return HasCheese(newX, newY);
-                case ConsoleKey.RightArrow:
-                    newX = Mouse.XCord + 1;
-                    newY = Mouse.YCord;
-                    return HasCheese(newX, newY);
-                case ConsoleKey.UpArrow:
-                    newX = Mouse.XCord;
-                    newY = Mouse.YCord - 1;
-                    return HasCheese(newX, newY);
+                int newX;
+                int newY;
+                switch (userKey)
+                {
+                    case ConsoleKey.DownArrow:
+                        newX = Mouse.XCord;
+                        newY = Mouse.YCord + 1;
+                        return HasCheese(newX, newY);
+                    case ConsoleKey.LeftArrow:
+                        newX = Mouse.XCord - 1;
+                        newY = Mouse.YCord;
+                        return HasCheese(newX, newY);
+                    case ConsoleKey.RightArrow:
+                        newX = Mouse.XCord + 1;
+                        newY = Mouse.YCord;
+                        return HasCheese(newX, newY);
+                    case ConsoleKey.UpArrow:
+                        newX = Mouse.XCord;
+                        newY = Mouse.YCord - 1;
+                        return HasCheese(newX, newY);
+                }
             }
             // Must have hit a incorrect key, always return false
             return false;
