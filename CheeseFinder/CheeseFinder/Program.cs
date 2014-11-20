@@ -11,22 +11,10 @@ namespace CheeseFinder
         static void Main(string[] args)
         {
             CheeseFinder game = new CheeseFinder();
-            PlayGame(game);
+            game.PlayGame();
         }
 
-        private static void PlayGame(CheeseFinder game)
-        {
-            bool hasCheeseBeenFound = false;
-
-            while (!hasCheeseBeenFound)
-            {
-                game.DrawGrid();
-                hasCheeseBeenFound = game.MoveMouse(game.GetUserMove());
-                game.Round++;
-            }
-            Console.WriteLine("You found the cheese, it only took {0} rounds", game.Round);
-            Console.ReadLine();
-        }
+        
     }
 
     class CheeseFinder
@@ -67,6 +55,20 @@ namespace CheeseFinder
             // Found X,Y Coords without a mouse
             grid[cX, cY].Status = Point.PointStatus.Cheese;
             Cheese = grid[cX, cY];
+        }
+
+        public void PlayGame()
+        {
+            bool hasCheeseBeenFound = false;
+
+            while (!hasCheeseBeenFound)
+            {
+                this.DrawGrid();
+                hasCheeseBeenFound = this.MoveMouse(this.GetUserMove());
+                this.Round++;
+            }
+            Console.WriteLine("You found the cheese, it only took {0} rounds", this.Round);
+            Console.ReadLine();
         }
 
         public void DrawGrid()
